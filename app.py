@@ -40,7 +40,7 @@ def calculate_annual_percentage_returns(data):
     return pct_return
 
 # Function to plot stock performance vs S&P 500 using Plotly (annual percentage returns)
-def plot_stock_vs_sp500(historical_data, sp500_data):
+def plot_stock_vs_sp500(historical_data, sp500_data, ticker):
     # Calculate annual percentage returns for the stock (Apple)
     stock_pct_return = calculate_annual_percentage_returns(historical_data['Close'])
     
@@ -48,22 +48,22 @@ def plot_stock_vs_sp500(historical_data, sp500_data):
     sp500_pct_return = calculate_annual_percentage_returns(sp500_data)
     
     # Create a Plotly line chart for the stock and S&P 500 performance
-    st.subheader("Annual Stock Performance vs S&P 500 (Percentage Returns)")
+    st.subheader(f"Annual Stock Performance vs S&P 500 (Percentage Returns) for {ticker}")
     
     fig = go.Figure()
 
-    # Add Apple performance (percentage return) to the plot
+    # Add stock performance (percentage return) to the plot
     fig.add_trace(go.Scatter(x=stock_pct_return.index, 
                              y=stock_pct_return, 
                              mode='lines', 
-                             name="Apple (AAPL)", 
+                             name=f"{ticker} Performance",  # Dynamically set the stock ticker name here
                              line=dict(color='blue')))
     
     # Add S&P 500 performance (percentage return) to the plot
     fig.add_trace(go.Scatter(x=sp500_pct_return.index, 
                              y=sp500_pct_return, 
                              mode='lines', 
-                             name="S&P 500", 
+                             name="S&P 500 Performance",  # Static name for S&P 500
                              line=dict(color='green')))
     
     # Update layout for hover info
@@ -123,7 +123,7 @@ def main():
             sp500_data = get_sp500_data()
 
             # Plot stock performance vs S&P 500 returns for the past 5 years
-            plot_stock_vs_sp500(historical_data, sp500_data)
+            plot_stock_vs_sp500(historical_data, sp500_data, ticker)
 
 if __name__ == "__main__":
     main()
